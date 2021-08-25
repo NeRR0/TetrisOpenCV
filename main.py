@@ -30,8 +30,7 @@ while True:
 
 
     background = tetris_figure.create_figure(background)
-    print(id(background))
-
+    print(tetris_figure.y_coord)
 
     cv2.imshow("TETRIS", background)
     cv2.waitKey(1000)
