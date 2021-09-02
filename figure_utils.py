@@ -31,7 +31,7 @@ class TetrisFigure:
         image = self._delete_old_coord(image, self.currently_figure)
         self.y_coord = 40 * self.counter
         self.counter += 1
-        image[self.y_coord:self.y_coord + self.currently_figure.shape[0], self.x_coord:self.x_coord + self.currently_figure.shape[1]] =  self.currently_figure
+        image[self.y_coord:self.y_coord + self.currently_figure.shape[0], self.x_coord:self.x_coord + self.currently_figure.shape[1]] = self.currently_figure
 
 
     def _delete_old_coord(self, image, black_figure):
