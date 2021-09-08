@@ -1,8 +1,11 @@
 import numpy as np
 
+import board
+
+
 class TetrisFigure:
     def __init__(self):
-        self.counter = 0
+        # self.counter = 1
         self.x_coord = 40 # TODO make it random or center 
         self.y_coord = 40
         self.currently_figure = None
@@ -16,7 +19,9 @@ class TetrisFigure:
 
 
     def _create_square(self):
-        self.currently_figure = np.ones((40, 40, 3), dtype=np.uint8) * 255
+        self._square_width = 40
+        self._square_height = 40
+        self.currently_figure = np.ones((self._square_width, self._square_height, 3), dtype=np.uint8) * 255
         return self.currently_figure
 
 
@@ -29,9 +34,9 @@ class TetrisFigure:
 
     def update_figure(self, image):
         image = self._delete_old_coord(image, self.currently_figure)
-        self.y_coord = 40 * self.counter
-        self.counter += 1
+        self.y_coord = self.y_coord + self._square_width
         image[self.y_coord:self.y_coord + self.currently_figure.shape[0], self.x_coord:self.x_coord + self.currently_figure.shape[1]] = self.currently_figure
+
 
 
     def _delete_old_coord(self, image, black_figure):
@@ -39,5 +44,13 @@ class TetrisFigure:
         image[self.y_coord:self.y_coord + white_figure.shape[0], self.x_coord:self.x_coord + white_figure.shape[1]] = white_figure
         return image
 
-    # def _
-    # def _floor_block(self):
+
+    def _floor_block(self, board):
+        print(self.y_coord + 40, board.shape[0])
+        if self.y_coord + 40 == board.shape[0]:
+            print("STUCK")
+            return True
+        elif (board[self.y_coord + 40][self.x_coord] == np.asarray([255, 255, 255])).any():
+            return True
+        else:
+            return False

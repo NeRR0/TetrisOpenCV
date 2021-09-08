@@ -11,7 +11,7 @@ que = queue.Queue()
 
 def update_figure():
     while True:
-        time.sleep(1)
+        time.sleep(0.2)
         que.put(True)
 
 
@@ -36,7 +36,12 @@ def main():
         if not que.empty():
             flag = que.get(block=False)
             if flag:
-                tetris_figure.update_figure(background)
+                block_flag = tetris_figure._floor_block(background)
+                if not block_flag:
+                    tetris_figure.update_figure(background)
+                else:
+
+                    _ = tetris_figure.create_figure(background)
 
 
         cv2.imshow("TETRIS", background)
@@ -44,6 +49,6 @@ def main():
         add_text(img=background, color=(0, 0, 0), game_loop_counter=game_loop_counter)
         game_loop_counter += 1
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     main()
