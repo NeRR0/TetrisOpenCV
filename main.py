@@ -11,7 +11,7 @@ que = queue.Queue()
 
 def update_figure():
     while True:
-        time.sleep(0.2)
+        time.sleep(1)
         que.put(True)
 
 
@@ -28,20 +28,30 @@ def main():
     background = board.create()
     game_loop_counter = 0
 
-    tetris_figure = TetrisFigure()
-    _ = tetris_figure.create_figure(background)
+    tetris_figure = TetrisFigure(background)
+    _ = tetris_figure.create_figure()
     while True:
-        add_text(img=background, color=(255, 0 ,0), game_loop_counter=game_loop_counter)
+        add_text(img=background, color=(255, 0, 0), game_loop_counter=game_loop_counter)
+
+
+        if cv2.waitKey(1) & 0xFF == ord('d'):
+            _ = tetris_figure.move_figure("right")
+            print("pressed d")
+        if cv2.waitKey(1) & 0xFF == ord('a'):
+            _ = tetris_figure.move_figure("left")
+            print("pressed a")
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            _ = tetris_figure.move_figure("down")
+            print("pressed s")
 
         if not que.empty():
             flag = que.get(block=False)
             if flag:
-                block_flag = tetris_figure._floor_block(background)
+                block_flag = tetris_figure._floor_block()
                 if not block_flag:
-                    tetris_figure.update_figure(background)
+                    tetris_figure.update_figure()
                 else:
-
-                    _ = tetris_figure.create_figure(background)
+                    _ = tetris_figure.create_figure()
 
 
         cv2.imshow("TETRIS", background)
